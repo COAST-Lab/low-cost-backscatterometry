@@ -1,0 +1,13 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+file = pd.read_excel(r'C:\Users\Russe\OneDrive\Desktop\Coastlab\Data\Test.xlsx')
+
+x_axis = file['Time']
+y_axis = file['F1 415nm']
+plt.figure(figsize=(10,10))
+plt.scatter(x_axis, y_axis, marker="*", s=100, edgecolors="black", c="yellow")
+plt.xlabel("Time")
+plt.ylabel("Basic Counts")
+plt.title("Basic Counts Over Time")
+plt.show()
