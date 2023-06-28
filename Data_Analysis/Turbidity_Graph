@@ -1,0 +1,18 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+file = "C:\Users\Russe\OneDrive\Desktop\Coastlab\Data\Test2.txt"
+
+df = pd.read_csv(file, encoding='utf-8')
+print(df)
+
+row = 1
+
+x_axis = file[row:row+15]
+y_axis = file['F1 415nm']
+plt.figure(figsize=(10,10))
+plt.scatter(x_axis, y_axis, marker="*", s=100, edgecolors="black", c="yellow")
+plt.xlabel("Time")
+plt.ylabel("Basic Counts")
+plt.title("Basic Counts Over Time")
+plt.show()
