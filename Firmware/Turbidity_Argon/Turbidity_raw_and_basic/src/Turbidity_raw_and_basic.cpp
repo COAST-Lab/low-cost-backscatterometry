@@ -70,6 +70,7 @@ void setup() {
   SD.begin(SD_CHIP_SELECT);
  
   File file = SD.open("data.csv", FILE_WRITE);
+
   if (file) {
     file.println("LED Status,Date,Time,Type,F1 (415nm),F2 (445nm),F3 (480nm),F4 (515nm),F5 (555nm),F6 (590nm),F7 (630nm),F8 (680nm),Clear (),NIR (),Type,F1 415nm,F2 445nm,F3 480nm,F4 515nm,F5 555nm,F6 590nm,F7 630nm,F8 680nm,Clear,NIR"); // Headers
     file.close();
@@ -178,6 +179,7 @@ void loop() {
 
   File file = SD.open("data.csv", FILE_WRITE);
   if (file) {
+
     //  print readings
      
     file.print("LED ON");

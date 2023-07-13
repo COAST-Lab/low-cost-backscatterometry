@@ -33,11 +33,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  14 .debug_macro  000499b3  00000000  00000000  002287eb  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_line   0005eb4a  00000000  00000000  0027219e  2**0
+ 15 .debug_line   0005eb49  00000000  00000000  0027219e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_str    00139969  00000000  00000000  002d0ce8  2**0
+ 16 .debug_str    00139969  00000000  00000000  002d0ce7  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_frame  00008e2c  00000000  00000000  0040a654  2**2
+ 17 .debug_frame  00008e2c  00000000  00000000  0040a650  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -622,6 +622,7 @@ class SPISettings : public Printable {
   SD.begin(SD_CHIP_SELECT);
  
   File file = SD.open("data.csv", FILE_WRITE);
+
   if (file) {
    b431a:	f89d 3014 	ldrb.w	r3, [sp, #20]
    b431e:	b143      	cbz	r3, b4332 <setup+0x15e>
