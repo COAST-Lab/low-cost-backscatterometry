@@ -16,8 +16,14 @@ char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursd
 const int SD_CHIP_SELECT = D5;
 uint8_t LedPin = 0;
 
+
+
 SYSTEM_THREAD(ENABLED);
 SYSTEM_MODE(SEMI_AUTOMATIC);
+
+
+
+
 
 void setup() {
   Serial.begin(9600);
@@ -32,9 +38,9 @@ void setup() {
     while (1) { delay(10); }
   }
   
-  as7341.setATIME(100);
-  as7341.setASTEP(999);
-  as7341.setGain(AS7341_GAIN_256X);
+  as7341.setATIME(59);
+  as7341.setASTEP(599);
+  as7341.setGain(AS7341_GAIN_4X);
 
   if (! rtc.begin()) {
     Serial.println("Couldn't find RTC");
@@ -63,6 +69,16 @@ void setup() {
   File file = SD.open("data.csv", FILE_WRITE);
 
   if (file) {
+    file.print("ASTEP:");
+    file.print(',');
+    file.println(as7341.getASTEP());
+    file.print("ATIME:");
+    file.print(',');
+    file.println(as7341.getATIME());
+    file.print("GAIN:");
+    file.print(',');
+    file.println(as7341.getGain());
+    file.println(" ");
     file.println("LED Status,Date,Time,Type,F1 (415nm),F2 (445nm),F3 (480nm),F4 (515nm),F5 (555nm),F6 (590nm),F7 (630nm),F8 (680nm),Clear (),NIR (),Type,F1 415nm,F2 445nm,F3 480nm,F4 515nm,F5 555nm,F6 590nm,F7 630nm,F8 680nm,Clear,NIR"); // Headers
     file.close();
   } else {
