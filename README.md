@@ -56,7 +56,7 @@
 
 •	The number of consecutive samples at a given LED intensity appears to be variable. Sometimes it's two, sometimes four. We'd need that to be a fixed value for future analyses. Ideally a variable that can be set just like the intensity itself.  
 
-•	Assemble the turbidity device.  
+•	Assemble the turbidity device.  The entire setup is on two breadboards connected together, but recommend finishing the coding before disassembly, since this setup already has a working RTC.
 
 •	Order the housing for the turbidity device.
 
