@@ -96,6 +96,7 @@ void loop() {
 
   // Switch LED intensity to bright.
 
+  unsigned long decimalseconds_to_record = (millis() % 1000)/1; //the divided by 1 has to stay, otherwise the program gets stuck during serial monitor!
   unsigned long currentTime = millis();  // Current time in milliseconds
   unsigned long onTime = 500;  // 500 milliseconds on time
   unsigned long offTime = 500;  // 500 milliseconds off time
@@ -126,6 +127,8 @@ void loop() {
   Serial.print(now.minute(), DEC);
   Serial.print(':');
   Serial.print(now.second(), DEC);
+  Serial.print('.');
+  Serial.print(decimalseconds_to_record, DEC);
   Serial.println();
 
   uint16_t readings[12];
@@ -222,6 +225,8 @@ void loop() {
     file.print(now.minute(), DEC);
     file.print(':');
     file.print(now.second(), DEC);
+    file.print(':');
+    file.print(decimalseconds_to_record, DEC);
     file.print(',');
     file.print("BASIC COUNTS");
     file.print(',');
@@ -301,6 +306,8 @@ DateTime now2 = rtc.now();
   Serial.print(now2.minute(), DEC);
   Serial.print(':');
   Serial.print(now2.second(), DEC);
+  Serial.print('.');
+  Serial.print(decimalseconds_to_record, DEC);
   Serial.println(); 
 
   if (!as7341.readAllChannels(readings)){
@@ -394,6 +401,8 @@ DateTime now2 = rtc.now();
     file.print(now2.minute(), DEC);
     file.print(':');
     file.print(now2.second(), DEC);
+    file.print(':');
+    file.print(decimalseconds_to_record, DEC);
     file.print(',');
     file.print("BASIC COUNTS");
     file.print(',');

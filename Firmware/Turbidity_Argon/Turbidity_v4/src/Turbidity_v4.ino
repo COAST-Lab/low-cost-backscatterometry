@@ -97,17 +97,19 @@ void loop() {
   // Switch LED intensity to bright.
 
   unsigned long currentTime = millis();  // Current time in milliseconds
-  unsigned long onTime = 1000;  // 1 second on time
-  unsigned long offTime = 1000;  // 1 second off time
+  unsigned long onTime = 500;  // 1 second on time
+  unsigned long offTime = 500;  // 1 second off time
 
   // Calculate the time elapsed since the start of the loop
   unsigned long elapsedTime = currentTime % (onTime + offTime);
 
-  bool isLedOn = (elapsedTime <= onTime);
+
+
+  bool isLedOn = (elapsedTime < onTime);
   aw.analogWrite(LedPin, isLedOn ? LEDbright : LEDdim); // Turn LED on or off
   // aw.analogWrite(LedPin, 250);
 
-  //delay(250);
+  //delay(100);
 
   serialprintresults();
   
@@ -133,11 +135,11 @@ void loop() {
 
 
 
-  bool isLedOff = (elapsedTime <= offTime);
+  bool isLedOff = (elapsedTime < offTime);
   aw.analogWrite(LedPin, isLedOff ? LEDdim : LEDbright);
   // aw.analogWrite(LedPin, 1);
 
-  //delay(500);
+  //delay(100);
 
   serialprintresults();
   
@@ -151,7 +153,7 @@ void loop() {
 
   fileprintresults();
 
-//}
+
 
 //else {
   //  Serial.println(F("Error opening file!"));
@@ -165,6 +167,7 @@ void serialprintresults()
 {
 
 DateTime now = rtc.now();
+unsigned long decimalseconds_to_record = (millis() % 1000)/1; //the divided by 1 has to stay, otherwise the program gets stuck during serial monitor!
 
 Serial.print("LED INTENSITY:");
   Serial.print(" ");
@@ -183,6 +186,8 @@ Serial.print("LED INTENSITY:");
   Serial.print(now.minute(), DEC);
   Serial.print(':');
   Serial.print(now.second(), DEC);
+  Serial.print('.');
+  Serial.print(decimalseconds_to_record, DEC);
   Serial.println();
 
   uint16_t readings[12];
@@ -262,6 +267,7 @@ void fileprintresults()
 
 File file = SD.open("data.csv", FILE_WRITE);
 DateTime now = rtc.now();
+unsigned long decimalseconds_to_record = (millis() % 1000)/1; //the divided by 1 has to stay, otherwise the program gets stuck during serial monitor!
 
  uint16_t readings[12];
   float counts[12];
@@ -281,8 +287,8 @@ DateTime now = rtc.now();
 if (file) {
 
   unsigned long currentTime = millis();  // Current time in milliseconds
-  unsigned long onTime = 1000;  // 1 second on time
-  unsigned long offTime = 1000;  // 1 second off time
+  unsigned long onTime = 500;  // 1 second on time
+  unsigned long offTime = 500;  // 1 second off time
 
   // Calculate the time elapsed since the start of the loop
   unsigned long elapsedTime = currentTime % (onTime + offTime);
@@ -307,6 +313,8 @@ file.print(now.year(), DEC);
     file.print(now.minute(), DEC);
     file.print(':');
     file.print(now.second(), DEC);
+    file.print(':');
+    file.print(decimalseconds_to_record, DEC);
     file.print(',');
     file.print("BASIC COUNTS");
     file.print(',');

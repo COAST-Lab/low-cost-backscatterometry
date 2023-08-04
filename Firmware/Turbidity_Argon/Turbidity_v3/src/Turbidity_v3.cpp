@@ -14,7 +14,6 @@
 
 void setup();
 void loop();
-void serialprintresults();
 #line 9 "c:/Users/Russe/OneDrive/Desktop/Coastlab/Turbidity_v3/src/Turbidity_v3.ino"
 Adafruit_AS7341 as7341;
 Adafruit_AW9523 aw;
@@ -106,6 +105,7 @@ void loop() {
 
   // Switch LED intensity to bright.
 
+  unsigned long decimalseconds_to_record = (millis() % 1000)/1;
   unsigned long currentTime = millis();  // Current time in milliseconds
   unsigned long onTime = 500;  // 500 milliseconds on time
   unsigned long offTime = 500;  // 500 milliseconds off time
@@ -136,6 +136,8 @@ void loop() {
   Serial.print(now.minute(), DEC);
   Serial.print(':');
   Serial.print(now.second(), DEC);
+  Serial.print('.');
+  Serial.print(decimalseconds_to_record, DEC);
   Serial.println();
 
   uint16_t readings[12];
@@ -232,6 +234,8 @@ void loop() {
     file.print(now.minute(), DEC);
     file.print(':');
     file.print(now.second(), DEC);
+    file.print(':');
+    file.print(decimalseconds_to_record, DEC);
     file.print(',');
     file.print("BASIC COUNTS");
     file.print(',');
@@ -311,6 +315,8 @@ DateTime now2 = rtc.now();
   Serial.print(now2.minute(), DEC);
   Serial.print(':');
   Serial.print(now2.second(), DEC);
+  Serial.print('.');
+  Serial.print(decimalseconds_to_record, DEC);
   Serial.println(); 
 
   if (!as7341.readAllChannels(readings)){
@@ -388,7 +394,7 @@ DateTime now2 = rtc.now();
     //  print readings
      
     //file.print("LED DIM");
-    file.print(isLedOn ? "250" : "1");
+    file.print(isLedOn ? LEDbright : LEDdim);
     file.print(',');
     file.print(now2.year(), DEC);
     file.print('/');
@@ -404,6 +410,8 @@ DateTime now2 = rtc.now();
     file.print(now2.minute(), DEC);
     file.print(':');
     file.print(now2.second(), DEC);
+    file.print(':');
+    file.print(decimalseconds_to_record, DEC);
     file.print(',');
     file.print("BASIC COUNTS");
     file.print(',');
@@ -458,95 +466,3 @@ else {
   delay(250);
 
 }
-
-void serialprintresults() {
-
-  uint16_t readings[12];
-  float counts[12];
-
-    if (!as7341.readAllChannels(readings)){
-    Serial.println("Error reading all channels!");
-    return;
-  }
-
-  for(uint8_t i = 0; i < 12; i++) {
-    if(i == 4 || i == 5) continue;
-    // we skip the first set of duplicate clear/NIR readings
-    // (indices 4 and 5)
-    counts[i] = as7341.toBasicCounts(readings[i]);
-  }
-
-  Serial.print("F1 415nm : ");
-  Serial.print(counts[0]);
-  Serial.print("  ");
-  Serial.print("Raw Value : ");
-  Serial.println(readings[0]);
-  Serial.print("F2 445nm : ");
-  Serial.print(counts[1]);
-  Serial.print("  ");
-  Serial.print("Raw Value : ");
-  Serial.println(readings[1]);
-  Serial.print("F3 480nm : ");
-  Serial.print(counts[2]);
-  Serial.print("  ");
-  Serial.print("Raw Value : ");
-  Serial.println(readings[2]);
-  Serial.print("F4 515nm : ");
-  Serial.print(counts[3]);
-  Serial.print("  ");
-  Serial.print("Raw Value : ");
-  Serial.println(readings[3]);
-  Serial.print("F5 555nm : ");
-
-  // again, we skip the duplicates  
-
-  Serial.print(counts[6]);
-  Serial.print("  ");
-  Serial.print("Raw Value : ");
-  Serial.println(readings[6]);
-  Serial.print("F6 590nm : ");
-  Serial.print(counts[7]);
-  Serial.print("  ");
-  Serial.print("Raw Value : ");
-  Serial.println(readings[7]);
-  Serial.print("F7 630nm : ");
-  Serial.print(counts[8]);
-  Serial.print("  ");
-  Serial.print("Raw Value : ");
-  Serial.println(readings[8]);
-  Serial.print("F8 680nm : ");
-  Serial.print(counts[9]);
-  Serial.print("  ");
-  Serial.print("Raw Value : ");
-  Serial.println(readings[9]);
-  Serial.print("Clear    : ");
-  Serial.print(counts[10]);
-  Serial.print("  ");
-  Serial.print("Raw Value : ");
-  Serial.println(readings[10]);
-  Serial.print("NIR      : ");
-  Serial.print(counts[11]);
-  Serial.print("  ");
-  Serial.print("Raw Value : ");
-  Serial.println(readings[11]);
-  Serial.print("  ");
-  Serial.println();
-}
-
-//void fileprintresults() {
-
-//  File file = SD.open("data.csv", FILE_WRITE);
- // DateTime now = rtc.now();
-
- // uint16_t readings[12];
- // float counts[12];
-
-
-
-
-
-    //  print readings
-     
-    
-
-//}
